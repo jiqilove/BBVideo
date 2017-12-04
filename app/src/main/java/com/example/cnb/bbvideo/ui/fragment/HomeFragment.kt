@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment(), HomeView {
     }
 
     override fun loadMore(list: List<HomeItemBean>?) {
-adpter.loadMore(list)
+        adpter.loadMore(list)
     }
 
     //适配
@@ -52,8 +52,10 @@ adpter.loadMore(list)
         recycleView.layoutManager = LinearLayoutManager(context)
         recycleView.adapter = adpter
         //初始化刷新控件
+
         refreshLayout.setColorSchemeColors(Color.RED, Color.YELLOW, Color.BLUE, Color.DKGRAY)
         //刷新监听
+        refreshLayout.isRefreshing=true
         refreshLayout.setOnRefreshListener {
             //刷新监听监听数据
             presenter.loadDatas()
@@ -77,13 +79,14 @@ adpter.loadMore(list)
 //                    }
 //                }
 */
+                val layoutManager = recyclerView?.layoutManager
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     //最后一条是否显示
-                    val layoutManager = recyclerView?.layoutManager
+
                     if (layoutManager is LinearLayoutManager) {
-                        var manager: LinearLayoutManager = layoutManager
+                        val manager: LinearLayoutManager = layoutManager
                         val lastPosition = manager.findLastVisibleItemPosition()
-                        if (lastPosition == adpter.itemCount - 1) {
+                        if (lastPosition == adpter.itemCount-1 ) {
                             presenter.loadMore(adpter.itemCount - 1)
                         }
                     }

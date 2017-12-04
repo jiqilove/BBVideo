@@ -11,7 +11,7 @@ import com.itheima.player.model.bean.HomeItemBean
 /**
  * Created by cnb on 2017/11/30.
  */
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeHolde>() {
+class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeHolder>() {
     private val list =ArrayList<HomeItemBean>()
     /**
      * 刷新
@@ -39,17 +39,17 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeHolde>() {
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): HomeHolde {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): HomeHolder {
 
         if(viewType==1){
-            return HomeHolde(LoadMoreView(parent?.context))
+            return HomeHolder(LoadMoreView(parent?.context))
         }else
-            return HomeHolde(HomeItemView(parent?.context))
+            return HomeHolder(HomeItemView(parent?.context))
     }
 
 
 
-    override fun onBindViewHolder(holder: HomeHolde?, position: Int) {
+    override fun onBindViewHolder(holder: HomeHolder?, position: Int) {
         //条目数据
         if(position==list.size) return
      val data =list.get(position)
@@ -76,7 +76,5 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeHolde>() {
         return  list.size+1
     }
 
-    class HomeHolde(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    }
+    class HomeHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

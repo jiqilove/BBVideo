@@ -10,7 +10,7 @@ import java.lang.reflect.ParameterizedType
  * desc:  所有请求数据的基类
  */
 
-open class MRequest<RESOPNSE>(val url:String, val handler: ResponseHandler<List<HomeRequest>>) {
+open class MRequest<RESOPNSE>(val type:Int,val url: String, val handler: ResponseHandler<RESOPNSE>) {
     /**
      * 解析网络请求结果
      */
@@ -21,10 +21,17 @@ open class MRequest<RESOPNSE>(val url:String, val handler: ResponseHandler<List<
         val type = (this.javaClass.genericSuperclass as ParameterizedType).getActualTypeArguments()[0]
 
         val list = gson.fromJson<RESOPNSE>(result, type)
-        return  list
+        return list
+
     }
 
+    /**
+     * 发送网络请求
+     */
+    fun excute() {
+NetManager.manager.sendRequest(this)
 
+    }
 
 
 }

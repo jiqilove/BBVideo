@@ -20,6 +20,7 @@ class NetManager private constructor() {
      * 发送网络请求
      */
     fun <RESPONSE> sendRequest(req: MRequest<RESPONSE>) {
+
         val request = Request
                 .Builder()
                 .url(req.url)
@@ -33,7 +34,7 @@ class NetManager private constructor() {
                 ThreadUtil.runOnMainThread(object : Runnable {
                     override fun run() {
                         //隐藏刷新控件
-                        req.handler.onEror(e?.message)
+                        req.handler.onError(req.type,e?.message)
 //                         refreshLayout.isRefreshing = false
                     }
                 })
@@ -42,10 +43,13 @@ class NetManager private constructor() {
             //成功返回的数据
             override fun onResponse(call: Call?, response: Response?) {
                 val result = response?.body()?.string()
+
                 val parseResult = req.parseResult(result)
                 ThreadUtil.runOnMainThread(object : Runnable {
                     override fun run() {
-                        req.handler.onSuccess(parseResult)
+
+                        req.handler.onSuccess(req.type,parseResult)
+
                     }
                 })
             }

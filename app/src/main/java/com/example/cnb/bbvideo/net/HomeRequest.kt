@@ -6,7 +6,7 @@ import com.itheima.player.model.bean.HomeItemBean
 /**
  * Created by cnb on 2017/12/1.
  */
-class  HomeRequest(offset:Int, handler: ResponseHandler<List<HomeRequest>>) :
-        MRequest<List<HomeItemBean>>(URLProviderUtils.getHomeUrl(offset,20),handler){
+class  HomeRequest(type:Int,offset:Int, handler: ResponseHandler<List<HomeItemBean>>) :
+        MRequest<List<HomeItemBean>>(type,URLProviderUtils.getHomeUrl(offset,20),handler){
 
 }
