@@ -22,7 +22,7 @@ abstract class  BaseFragment : Fragment() ,AnkoLogger{
         super.onCreate(savedInstanceState)
 
         init()
-debug { "ahaada" }
+
     }
 
     /**

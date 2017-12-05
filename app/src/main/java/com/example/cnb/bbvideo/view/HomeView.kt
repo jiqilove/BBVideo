@@ -1,5 +1,7 @@
 package com.example.cnb.bbvideo.view
 
+import android.support.v7.widget.LinearSmoothScroller
+import com.example.cnb.bbvideo.base.BaseView
 import com.itheima.player.model.bean.HomeItemBean
 
 /**
@@ -9,19 +11,8 @@ import com.itheima.player.model.bean.HomeItemBean
  * home界面和presenter 层交互
  *
  */
-interface HomeView {
-    /**
-     * 获取数据失败
-     */
-    fun onError(message: String?)
+interface HomeView :BaseView<List<HomeItemBean>>  {
 
-    /**
-     * 获取数据据成功
-     */
-    fun loadSuccess(list: List<HomeItemBean>?)
 
-    /**
-     * 加载更多数据成功
-     */
-    fun loadMore(list: List<HomeItemBean>?)
+
 }
