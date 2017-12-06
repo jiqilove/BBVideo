@@ -28,7 +28,7 @@ abstract class  BaseFragment : Fragment() ,AnkoLogger{
     /**
      * fragment 初始化数据
      */
-    protected fun init() {
+ open   protected fun init() {
 
     }
 

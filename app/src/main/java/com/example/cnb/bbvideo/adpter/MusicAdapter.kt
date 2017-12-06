@@ -15,7 +15,7 @@ import com.itheima.player.model.bean.MusicBean
 /**
  * Created by cnb on 2017/12/4.
  */
-class MusicApdater : BaseListApdater<MusicBean.PlayListsBean,MusicItemView>() {
+class MusicAdapter : BaseListApdater<MusicBean.PlayListsBean,MusicItemView>() {
     override fun getItemView(context: Context?): MusicItemView {
         return MusicItemView(context)
     }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+
+    <cn.jzvd.JZVideoPlayerStandard
+        android:id="@+id/jcvideoplayer"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </cn.jzvd.JZVideoPlayerStandard>
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+
+        <RadioButton
+            android:id="@+id/rb1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_radio_left"
+            android:button="@null"
+            android:gravity="center"
+            android:checked="true"
+            android:padding="5dp"
+            android:text="评论 MV"
+            android:textColor="#BBDEFB"
+            android:textSize="20sp"
+
+            />
+
+        <RadioButton
+            android:id="@+id/rb2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="#536DFE"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="描述 MV"
+            android:textColor="#BBDEFB"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/rb3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_radio_right"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="相关 MV"
+
+            android:textColor="#BBDEFB"
+            android:textSize="20sp"
+
+            />
+    </RadioGroup>
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/videoViewPage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

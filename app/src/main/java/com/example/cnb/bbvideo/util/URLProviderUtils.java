@@ -30,7 +30,7 @@ public class URLProviderUtils {
         return url;
     }
 
-    public static String getMVareaUrl() {
+    public static String getVideoAreaUrl() {
         String url = "http://mapi.yinyuetai.com/video/get_mv_areas.json?deviceinfo="
                 + "{\"aid\":\"10201036\",\"os\":\"Android\","
                 + "\"ov\":" + "\"" + getSystemVersion() + "\"" + ","

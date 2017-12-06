@@ -5,9 +5,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.example.cnb.bbvideo.R
+
 import com.example.cnb.bbvideo.adpter.HomeAdapter
 import com.example.cnb.bbvideo.presenter.impl.HomePresenterImpl
 import com.example.cnb.bbvideo.view.HomeView
+
 import com.itheima.player.model.bean.HomeItemBean
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.toast
@@ -24,7 +26,6 @@ import org.jetbrains.anko.support.v4.toast
 abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW : View> : BaseFragment(), BaseView<RESPONSE> {
 
 
-
     //适配
     val adapter by lazy { getSpecialAdpater() }
     val presenter by lazy { getSpecialPresenter() }
@@ -36,18 +37,18 @@ abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW : View> : BaseFragm
     }
 
     override fun loadSuccess(response: RESPONSE?) {
-        //隐藏刷新控件
-        refreshLayout.isRefreshing = false
+
         //刷新列表
         adapter.updataList(getList(response))
+        //隐藏刷新控件
+        refreshLayout.isRefreshing = false
     }
 
     override fun loadMore(response: RESPONSE?) {
 
+
         adapter.loadMore(getList(response))
     }
-
-
 
 
     override fun getLayoutId(): Int = R.layout.fragment_home
@@ -56,11 +57,13 @@ abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW : View> : BaseFragm
         //初始化recycleView
         recycleView.layoutManager = LinearLayoutManager(context)
         recycleView.adapter = adapter
-        //初始化刷新控件
 
+        //初始化刷新控件
         refreshLayout.setColorSchemeColors(Color.RED, Color.YELLOW, Color.BLUE, Color.DKGRAY)
+
         //刷新监听
         refreshLayout.isRefreshing = true
+
         refreshLayout.setOnRefreshListener {
             //刷新监听监听数据
             presenter.loadDatas()
@@ -108,7 +111,9 @@ abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW : View> : BaseFragm
     }
 
     override fun initData() {
+
         presenter.loadDatas()
+
     }
 
     /**

@@ -41,7 +41,7 @@ class HomePresenterImpl(var homeView: BaseView<List<HomeItemBean>>?) : HomePrese
      */
     override fun loadDatas() {
         //定义一个request
-        val request = HomeRequest(BaseListPresenter.TYPE_INIT_OR_REFRESH, 0, this).excute()
+        HomeRequest(BaseListPresenter.TYPE_INIT_OR_REFRESH, 0, this).excute()
         /*
           val path = URLProviderUtils.getHomeUrl(0, 5)
           val client = OkHttpClient()
@@ -83,7 +83,7 @@ class HomePresenterImpl(var homeView: BaseView<List<HomeItemBean>>?) : HomePrese
 
     override fun loadMore(offset: Int) {
         //定义一个request
-        val request = HomeRequest(BaseListPresenter.TYPE_LOAD_MORE, offset, this).excute()
+      HomeRequest(BaseListPresenter.TYPE_LOAD_MORE, offset, this).excute()
         /*
         val path = URLProviderUtils.getHomeUrl(offset, 5)
         val client = OkHttpClient()

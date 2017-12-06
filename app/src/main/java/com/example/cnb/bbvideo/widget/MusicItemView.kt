@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
 import com.example.cnb.bbvideo.R
+
+
 import com.itheima.player.model.bean.MusicBean
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation

@@ -15,7 +15,7 @@ import com.itheima.player.model.bean.HomeItemBean
  *
  *
  */
-abstract  class BaseListApdater<ITEMBEAN,ITEMVIEW:View> : RecyclerView.Adapter<BaseListApdater.BaseListHolder>() {
+abstract class BaseListApdater<ITEMBEAN, ITEMVIEW : View> : RecyclerView.Adapter<BaseListApdater.BaseListHolder>() {
     override fun onBindViewHolder(holder: BaseListApdater.BaseListHolder?, position: Int) {
         //条目数据
         if (position == list.size) return
@@ -24,11 +24,23 @@ abstract  class BaseListApdater<ITEMBEAN,ITEMVIEW:View> : RecyclerView.Adapter<B
         val itemView = holder?.itemView as ITEMVIEW
 
         //条目刷新
-        refreshView(itemView,data)
+        refreshView(itemView, data)
+
+        itemView.setOnClickListener {
+            //条目点击事件
+            listener?.let {
+                it(data)
+            }
+//            listener?.invoke(data)   第二种fangshi
+        }
 
     }
 
+    var listener: ((itemBean: ITEMBEAN) -> Unit)? = null
+    fun setMyListener(listener: (itemBean: ITEMBEAN) -> Unit) {
 
+        this.listener = listener
+    }
 
 
     private val list = ArrayList<ITEMBEAN>()
@@ -66,8 +78,6 @@ abstract  class BaseListApdater<ITEMBEAN,ITEMVIEW:View> : RecyclerView.Adapter<B
 //            return BaseListHolder(HomeItemView(parent?.context))
             return BaseListHolder(getItemView(parent?.context))
     }
-
-
 
 
     override fun getItemViewType(position: Int): Int {

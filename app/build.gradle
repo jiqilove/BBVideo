@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.cnb.bbvideo"
-        minSdkVersion 23
+        minSdkVersion 22
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -48,4 +48,10 @@ dependencies {
     compile 'jp.wasabeef:picasso-transformations:2.1.2'
     // If you want to use the GPU Filters
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+
+    compile 'com.dou361.ijkplayer:jjdxm-ijkplayer:1.0.6'
+    //节操播放器
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.1'
+
+
 }
