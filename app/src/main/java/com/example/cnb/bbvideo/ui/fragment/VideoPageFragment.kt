@@ -1,6 +1,7 @@
 package com.example.cnb.bbvideo.ui.fragment
 
 import com.example.cnb.bbvideo.R
+import com.example.cnb.bbvideo.R.id.jcvideoplayer
 import com.example.cnb.bbvideo.adpter.VideoListAdapter
 import com.example.cnb.bbvideo.base.BaseFragment
 import com.example.cnb.bbvideo.base.BaseListApdater
@@ -17,6 +18,7 @@ import com.example.cnb.bbvideo.widget.VideoItemView
 import com.itheima.player.model.bean.VideoPagerBean
 import com.itheima.player.model.bean.VideosBean
 import kotlinx.android.synthetic.main.activity_video_player_ijk.*
+import kotlinx.android.synthetic.main.activity_video_player_jiecao.*
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -57,7 +59,7 @@ class VideoPageFragment : BaseListFragment<VideoPagerBean, VideosBean, VideoItem
 
     override fun onDestroy() {
         super.onDestroy()
-        ij_video.stopPlayback()
+        jcvideoplayer.stopNestedScroll()
     }
 
 }

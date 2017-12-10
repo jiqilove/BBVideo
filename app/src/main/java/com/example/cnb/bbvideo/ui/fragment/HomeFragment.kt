@@ -13,19 +13,19 @@ import com.itheima.player.model.bean.HomeItemBean
 /**
  * Created by cnb on 2017/11/28.
  */
-class HomeFragment: BaseListFragment<List<HomeItemBean>,HomeItemBean,HomeItemView> (){
+class HomeFragment : BaseListFragment<List<HomeItemBean>, HomeItemBean, HomeItemView>() {
     override fun getList(response: List<HomeItemBean>?): List<HomeItemBean>? {
-        return  response }
+        return response
+    }
 
     override fun getSpecialAdpater(): BaseListApdater<HomeItemBean, HomeItemView> {
-return  HomeAdapter()
+        return HomeAdapter()
 
-        }
+    }
 
     override fun getSpecialPresenter(): BaseListPresenter {
-      return  HomePresenterImpl(this)
-       }
-
+        return HomePresenterImpl(this)
+    }
 
 
 }

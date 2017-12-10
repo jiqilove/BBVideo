@@ -13,9 +13,7 @@ import com.example.cnb.bbvideo.base.BaseFragment
  */
 class PersonFragment : BaseFragment() {
     override fun initListener() {
-
     }
-
     override fun getLayoutId(): Int = R.layout.fragment_persom
     override fun initData() {
 

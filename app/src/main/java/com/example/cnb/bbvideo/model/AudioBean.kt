@@ -10,7 +10,7 @@ import android.provider.MediaStore
  * ClassName:AudioBean
  * Description:音乐列表条目bean
  */
-data class AudioBean(var data: String, var size: Long, var display_name: String, var artist: String):Parcelable {
+data class AudioBean(var data: String, var size: Long, var display_name: String, var artist: String) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readLong(),
@@ -38,6 +38,7 @@ data class AudioBean(var data: String, var size: Long, var display_name: String,
         override fun newArray(size: Int): Array<AudioBean?> {
             return arrayOfNulls(size)
         }
+
         /**
          * 根据特定位置上的cursor获取bean
          */
@@ -50,11 +51,14 @@ data class AudioBean(var data: String, var size: Long, var display_name: String,
                 audioBean.data = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
                 audioBean.size = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE))
                 audioBean.display_name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
-                audioBean.display_name = audioBean.display_name.substring(0, audioBean.display_name.lastIndexOf("."))
+                audioBean.display_name = audioBean.display_name.substring(0, audioBean.display_name.lastIndexOf(""))
                 audioBean.artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
             }
             return audioBean
         }
+
+
+
 
         /**
          * 根据特定位置cursor获取整个播放列表
@@ -64,10 +68,10 @@ data class AudioBean(var data: String, var size: Long, var display_name: String,
             val list = ArrayList<AudioBean>()
             //cursor是否为空
             cursor?.let {
-                //将cursor游标移动到-1
+             //将cursor游标移动到-1
                 it.moveToPosition(-1)
-                //解析cursor添加到集合中
-                while (it.moveToNext()){
+             //解析cursor添加到集合中
+                while (it.moveToNext()) {
                     val autioBean = getAudioBean(it)
                     list.add(autioBean)
                 }

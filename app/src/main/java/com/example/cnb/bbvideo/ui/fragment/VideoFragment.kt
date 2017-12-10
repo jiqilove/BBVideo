@@ -10,6 +10,7 @@ import com.example.cnb.bbvideo.view.VideoView
 import com.itheima.player.model.bean.VideoAreaBean
 import kotlinx.android.synthetic.main.fragment_video.*
 
+
 /**
  * Created by cnb on 2017/11/28.
  */
@@ -24,7 +25,7 @@ class VideoFragment : BaseFragment(), VideoView {
 
     override fun onSuccess(result: List<VideoAreaBean>) {
         //zai fragment 中管理fragment
-        val adapter = VideoAreaAdapter(context,result, childFragmentManager)
+        val adapter = VideoAreaAdapter(activity,result, childFragmentManager)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
     }
