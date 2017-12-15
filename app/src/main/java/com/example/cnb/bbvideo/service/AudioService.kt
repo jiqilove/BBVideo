@@ -18,7 +18,7 @@ import java.util.*
 class AudioService : Service() {
     var list: ArrayList<AudioBean>? = null
     var mediaPlayer: MediaPlayer? = null
-    var position: Int = 0
+    var position: Int = -2   //正在播放的position
     val binder by lazy { AudioBinder() }
 
     companion object {
@@ -40,11 +40,19 @@ class AudioService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        //获取集合
-        list = intent?.getParcelableArrayListExtra<AudioBean>("list")
-        position = intent?.getIntExtra("position", -1) ?: -1
+
+        val pos = intent?.getIntExtra("position", -1) ?: -1
+        if (pos != position) {
+            position = pos
+            //获取集合
+            list = intent?.getParcelableArrayListExtra<AudioBean>("list")
+            binder.playItem()
+        } else {
+            //主动通知界面更新
+            binder.notifyUpdateUi()
+        }
         //start play
-        binder.playItem()
+
 //
 //        START_STICKY  粘性的service 强制杀死周 会长是重新启动service 不会传递原来的intent
 //        START_NOT_STICKY 非粘性的是service 强制杀死之后  不会尝试重新启动sercvce
@@ -64,6 +72,18 @@ class AudioService : Service() {
 
 
     inner class AudioBinder : Binder(), IService, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+        //播放当前位置歌曲
+        override fun playPosition(position: Int) {
+            this@AudioService.position = position
+            playItem()
+
+        }
+
+        //获取当前的播放集合
+        override fun getPlayList(): List<AudioBean>? {
+            return list
+        }
+
         //上一曲
         override fun playPre() {
             //获取播放歌曲的position
@@ -89,13 +109,12 @@ class AudioService : Service() {
         override fun playNext() {
             list?.let {
                 when (mode) {
-                    MODE_RANDOM ->position = Random().nextInt(it.size - 1)
+                    MODE_RANDOM -> position = Random().nextInt(it.size - 1)
 
-                    else -> position =(position+1)%it.size
+                    else -> position = (position + 1) % it.size
                 }
             }
             playItem()
-
 
 
         }
@@ -172,7 +191,12 @@ class AudioService : Service() {
         }
 
         fun playItem() {
-
+            //如果已经存在，先释放
+            if (mediaPlayer != null) {
+                mediaPlayer?.reset()
+                mediaPlayer?.release()
+                mediaPlayer = null
+            }
             mediaPlayer = MediaPlayer()
             mediaPlayer?.let {
                 it.setOnPreparedListener(this)
@@ -203,16 +227,20 @@ class AudioService : Service() {
             playItem()
         }
 
+        /**
+         * 通知界面的更新
+         */
+        fun notifyUpdateUi() {
+
+            //发送端
+            EventBus.getDefault().post(list?.get(position))
+        }
 
     }
 
 
-    /**
-     * 通知界面的更新
-     */
-    private fun notifyUpdateUi() {
-
-        //发送端
-        EventBus.getDefault().post(list?.get(position))
-    }
 }
+
+
+
+

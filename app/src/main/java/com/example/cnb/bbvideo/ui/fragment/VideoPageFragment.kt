@@ -1,5 +1,6 @@
 package com.example.cnb.bbvideo.ui.fragment
 
+import android.os.Build
 import com.example.cnb.bbvideo.R
 import com.example.cnb.bbvideo.R.id.jcvideoplayer
 import com.example.cnb.bbvideo.adpter.VideoListAdapter
@@ -59,7 +60,9 @@ class VideoPageFragment : BaseListFragment<VideoPagerBean, VideosBean, VideoItem
 
     override fun onDestroy() {
         super.onDestroy()
-        jcvideoplayer.stopNestedScroll()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            jcvideoplayer?.stopNestedScroll()
+        }
     }
 
 }

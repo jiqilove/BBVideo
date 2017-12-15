@@ -8,12 +8,16 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Message
 import android.view.View
+import android.widget.AdapterView
 import android.widget.SeekBar
 import com.example.cnb.bbvideo.R
+import com.example.cnb.bbvideo.R.layout.activity_musicplaye_button
+import com.example.cnb.bbvideo.adpter.PopApdter
 import com.example.cnb.bbvideo.base.BaseActivity
 import com.example.cnb.bbvideo.service.AudioService
 import com.example.cnb.bbvideo.service.IService
 import com.example.cnb.bbvideo.util.StringUtil
+import com.example.cnb.bbvideo.widget.PlayListPopWindow
 import com.itheima.player.model.AudioBean
 import de.greenrobot.event.EventBus
 import kotlinx.android.synthetic.main.activity_musicplaye_button.*
@@ -24,12 +28,17 @@ import kotlinx.android.synthetic.main.activity_musicplaye_top.*
 /**
  * Created by cnb on 2017/12/7.
  */
-class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeekBarChangeListener, AdapterView.OnItemClickListener {
+    //弹出列表的点击事件
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//播放当前的歌曲
+        val playPosition = iService?.playPosition(position)
+    }
+
     override fun getLayoutId(): Int {
         return R.layout.activity_musicplayer
 
     }
-
 
 
     /**
@@ -107,6 +116,10 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
      * 接受eventbus方法
      */
     fun onEventMainThread(itemBean: AudioBean) {
+        //设置播放歌曲
+        geci.setSongName(itemBean.display_name)
+        println("6666${itemBean.display_name}")
+
         //歌手歌曲的名称
         this.audioBean = itemBean
         //设置歌手名称
@@ -120,6 +133,9 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
         drawable?.start()
         //获取时间总进度
         duration = iService?.getDuration() ?: 0
+        geci.setSongDuration(duration)
+
+
         //进度条   设置最大值
         progress_sk.max = duration
         //更新播放进度
@@ -134,7 +150,7 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
         //更新当前进度的数据
         updateProgress(progress)
         //定时获取进度
-        handler.sendEmptyMessageDelayed(MSG_PROGRESS, 1000)
+        handler.sendEmptyMessage(MSG_PROGRESS)
 
     }
 
@@ -146,6 +162,8 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
         bottom_progress.text = progress
         //进度条
         progress_sk.setProgress(pro)
+        //更新歌词播放进度
+        geci.updataProgress(pro)
 
     }
 
@@ -201,10 +219,11 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
         //修改
         intent.setClass(this, AudioService::class.java)
 
-        //先开启
-        startService(intent)
-        //在绑定
+        //先绑定
         bindService(intent, conn, Context.BIND_AUTO_CREATE)
+        //在开启
+        startService(intent)
+
 /*
 //        //播放音乐
 //        val mediaPlayer = MediaPlayer()//
@@ -244,12 +263,11 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
     }
 
 
-
     override fun initListener() {
         // 播放状态设置
         state.setOnClickListener(this)
         // 返回键
-        back.setOnClickListener {finish()  }
+        back.setOnClickListener { finish() }
         //进度条
         progress_sk.setOnSeekBarChangeListener(this)
         //模式切换
@@ -258,7 +276,16 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
         pre.setOnClickListener(this)
         //下一曲
         next.setOnClickListener(this)
+        //播放列表
+        music_list.setOnClickListener(this)
+        //歌词拖动进度的更新
+geci.setPrgressListener {
 
+    //跟新播放进度
+    iService?.seekTo(it)
+
+    updateProgress(it)
+}
 
     }
 
@@ -267,10 +294,23 @@ class AudioPlayerActivity : BaseActivity(), View.OnClickListener, SeekBar.OnSeek
         when (v?.id) {
             R.id.state -> updatePlayState()
             R.id.play_mode -> updatePlayMode()
-            R.id.pre->iService?.playPre()
-            R.id.next->iService?.playNext()
+            R.id.pre -> iService?.playPre()
+            R.id.next -> iService?.playNext()
+            R.id.music_list -> showPlayList()
         }
 
+
+    }
+
+    // 显示列表
+    private fun showPlayList() {
+        val list = iService?.getPlayList()
+        list?.let {
+            val adapter = PopApdter(list)
+            val H = player_bottom.height
+            val popWindow = PlayListPopWindow(this, adapter, this, window)
+            popWindow.showAsDropDown(player_bottom, 0, -H)
+        }
 
     }
 

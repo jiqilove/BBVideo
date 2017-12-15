@@ -87,6 +87,7 @@ abstract class BaseListFragment<RESPONSE, ITEMBEAN, ITEMVIEW : View> : BaseFragm
 //                    }
 //                }
 */
+
                 val layoutManager = recyclerView?.layoutManager
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     //最后一条是否显示
